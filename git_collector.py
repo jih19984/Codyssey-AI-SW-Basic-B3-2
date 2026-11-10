@@ -6,6 +6,7 @@
 # returncode: 명령이 성공했는지 알려 주는 숫자 (0이면 성공) -> 프로그램이 끝나면서 운영체제에 남기는 숫자 하나를 의미한다.터미널에서 실행되는 모든 프로그램은 반드시 이 숫자를 돌려준다. 0은 정상 종료를 1은 일반적인 상태를 의미한다.
 # @dataclass란? 이름으로 꺼낼 수 있는 상자를 간단히 만들 수 있음. r.files, r.diff처럼 이름으로 꺼낼 수 있는 상자로 만듦
 # @property란? 계산해서 보여주는 칸. r.diff_line_count를 괄호없이 쓰면 꺼낼 때마다 줄 수를 계산해서 돌려줌
+# result.stdout: git이 1번 통로(표준 출력)로 내보낸 글
 
 """git status / git diff 결과를 프로그램 입력으로 바꾸는 모듈."""
 from dataclasses import dataclass
