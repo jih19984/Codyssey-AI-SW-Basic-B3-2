@@ -33,3 +33,33 @@ def build_commit_prompt(files: list[str], diff: str) -> tuple[str, str]:
     """커밋 메시지 생성용 (system, user) 프롬프트를 돌려준다."""
     user = "아래 변경 사항으로 커밋 메시지를 작성해 주세요.\n\n" + _format_changes(files, diff)
     return COMMIT_SYSTEM, user
+
+
+PR_SYSTEM = """당신은 Pull Request 설명을 작성하는 시니어 개발자입니다.
+아래 규칙을 반드시 지키세요.
+
+[형식]
+- 첫 줄: PR 제목 1줄. "타입: 요약" 형태 (타입은 feat, fix, docs, refactor, test, chore 중 하나)
+- 제목은 절대 80자를 넘기지 않는다
+- 둘째 줄: 빈 줄
+- 셋째 줄부터: PR 본문. 아래 세 섹션 헤더를 이 순서, 이 글자 그대로 쓴다
+## Why
+## What
+## How to Test
+- 각 섹션 아래에는 "- "로 시작하는 불릿을 1개 이상 쓴다
+
+[내용]
+- Why: 변경 배경. diff와 파일 이름에서 알 수 있는 범위에서만 쓰고, 없는 사정을 지어내지 않는다
+- What: 핵심 변경 사항. 변경된 파일(모듈) 이름을 함께 쓴다
+- How to Test: 리뷰어가 따라 할 수 있는 실행 명령이나 확인 절차
+- 한국어로 쓴다
+- [MASKED]는 민감정보를 가린 표시이므로 원래 값을 추측하거나 언급하지 않는다
+
+[출력]
+- PR 제목과 본문만 출력한다. 설명, 인사말, 코드 블록(```)으로 전체를 감싸지 않는다
+"""
+
+def build_pr_prompt(files: list[str], diff: str) -> tuple[str, str]:
+    """PR 제목/본문 생성용 (system, user) 프롬프트를 돌려준다."""
+    user = "아래 변경 사항으로 PR 제목과 본문을 작성해 주세요.\n\n" + _format_changes(files, diff)
+    return PR_SYSTEM, user
